@@ -1229,6 +1229,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2411-unreleased" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24.1.1 - unreleased
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="24.1.1 - unreleased">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2410-2026-01-23" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1252,7 +1280,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bug-fixes" class="md-nav__link">
+  <a href="#bug-fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Bug Fixes
@@ -1795,12 +1823,31 @@
 
 <p><span id="news-2026"></span></p>
 <h1 id="changelog-2026">Changelog - 2026<a class="headerlink" href="#changelog-2026" title="Permanent link">&para;</a></h1>
+<h2 id="2411-unreleased">24.1.1 - unreleased<a class="headerlink" href="#2411-unreleased" title="Permanent link">&para;</a></h2>
+<h3 id="bug-fixes">Bug Fixes<a class="headerlink" href="#bug-fixes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Fix <code>forwarded_allow_ips</code> and <code>proxy_allow_ips</code> to remain as strings for backward
+  compatibility with external tools like uvicorn. Network validation now uses strict
+  mode to detect invalid CIDR notation (e.g., <code>192.168.1.1/24</code> where host bits are set)
+  (<a href="https://github.com/benoitc/gunicorn/issues/3458">#3458</a>,
+  <a href="https://github.com/benoitc/gunicorn/pull/3459">PR #3459</a>)</li>
+</ul>
+<hr />
 <h2 id="2410-2026-01-23">24.1.0 - 2026-01-23<a class="headerlink" href="#2410-2026-01-23" title="Permanent link">&para;</a></h2>
 <h3 id="new-features">New Features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>PROXY Protocol v2 Support</strong>: Extended PROXY protocol implementation to support
+<li><strong>Official Docker Image</strong>: Gunicorn now publishes official Docker images to GitHub
+  Container Registry at <code>ghcr.io/benoitc/gunicorn</code></li>
+<li>Based on Python 3.12 slim image</li>
+<li>Uses recommended worker formula (2 × CPU + 1)</li>
+<li>
+<p>Configurable via environment variables</p>
+</li>
+<li>
+<p><strong>PROXY Protocol v2 Support</strong>: Extended PROXY protocol implementation to support
   the binary v2 format in addition to the existing text-based v1 format
-  (<a href="https://github.com/benoitc/gunicorn/pull/3451">PR #3451</a>)</li>
+  (<a href="https://github.com/benoitc/gunicorn/pull/3451">PR #3451</a>)</p>
+</li>
 <li>New <code>--proxy-protocol</code> modes: <code>off</code>, <code>v1</code>, <code>v2</code>, <code>auto</code></li>
 <li><code>auto</code> mode (default when enabled) detects v1 or v2 automatically</li>
 <li>v2 binary format is more efficient and supports additional metadata</li>
@@ -1823,8 +1870,13 @@
   (<a href="https://github.com/benoitc/gunicorn/pull/3447">PR #3447</a>)</p>
 </li>
 </ul>
-<h3 id="bug-fixes">Bug Fixes<a class="headerlink" href="#bug-fixes" title="Permanent link">&para;</a></h3>
+<h3 id="bug-fixes_1">Bug Fixes<a class="headerlink" href="#bug-fixes_1" title="Permanent link">&para;</a></h3>
 <ul>
+<li>
+<p>Fix signal handling regression where SIGCLD alias caused "Unhandled signal: cld"
+  errors on Linux when workers fail during boot
+  (<a href="https://github.com/benoitc/gunicorn/discussions/3453">#3453</a>)</p>
+</li>
 <li>
 <p>Fix socket blocking mode on keepalive connections preventing SSL handshake
   failures with async workers
