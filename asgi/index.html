@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://gunicorn.org/asgi/">
       
       
-        <link rel="prev" href="../guides/docker/">
+        <link rel="prev" href="../guides/http2/">
       
       
         <link rel="next" href="../dirty/">
@@ -692,6 +692,34 @@
     
   
     Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/http2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP/2
   
 
     
@@ -2185,7 +2213,7 @@ Use HTTP proxy for WebSocket endpoints.</p>
 </tr>
 <tr>
 <td>HTTP/2</td>
-<td>No</td>
+<td>Yes</td>
 <td>No</td>
 <td>Yes</td>
 </tr>
@@ -2209,6 +2237,10 @@ Use HTTP proxy for WebSocket endpoints.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>HTTP/2 requires SSL/TLS and the h2 library. See <a href="../guides/http2/">HTTP/2 Support</a> for details.</p>
+</div>
 <p>Gunicorn's ASGI worker provides the same process management, logging, and
 configuration capabilities you're familiar with from WSGI deployments.</p>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
