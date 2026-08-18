@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/gunicorn.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2126,7 +2126,7 @@ gunicorn<span class="w"> </span>myapp:app<span class="w"> </span>--worker-class<
 </code></pre></div>
 <p>Or in a configuration file:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># gunicorn.conf.py</span>
-<span class="n">protocol</span> <span class="o">=</span> <span class="s2">&quot;uwsgi&quot;</span>
+<span class="n">protocol</span> <span class="o">=</span> <span class="s2">"uwsgi"</span>
 </code></pre></div>
 <h3 id="allowed-ips">Allowed IPs<a class="headerlink" href="#allowed-ips" title="Permanent link">&para;</a></h3>
 <p>By default, uWSGI protocol requests are only accepted from localhost
@@ -2136,7 +2136,7 @@ requests directly to Gunicorn.</p>
 <div class="highlight"><pre><span></span><code>gunicorn<span class="w"> </span>myapp:app<span class="w"> </span>--protocol<span class="w"> </span>uwsgi<span class="w"> </span>--uwsgi-allow-from<span class="w"> </span><span class="m">10</span>.0.0.1,10.0.0.2
 </code></pre></div>
 <p>To allow all IPs (not recommended for production):</p>
-<div class="highlight"><pre><span></span><code>gunicorn<span class="w"> </span>myapp:app<span class="w"> </span>--protocol<span class="w"> </span>uwsgi<span class="w"> </span>--uwsgi-allow-from<span class="w"> </span><span class="s1">&#39;*&#39;</span>
+<div class="highlight"><pre><span></span><code>gunicorn<span class="w"> </span>myapp:app<span class="w"> </span>--protocol<span class="w"> </span>uwsgi<span class="w"> </span>--uwsgi-allow-from<span class="w"> </span><span class="s1">'*'</span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -2403,7 +2403,7 @@ in <code>uwsgi_params</code>. Custom headers should be passed as:</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.path", "search.highlight", "search.suggest", "search.share", "toc.follow", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../assets/javascripts/toc-collapse.js"></script>
       
