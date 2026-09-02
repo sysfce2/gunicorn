@@ -3722,8 +3722,7 @@ are force killed.</p>
 <p>Valid protocols:</p>
 <ul>
 <li><code>h1</code> - HTTP/1.1 (default)</li>
-<li><code>h2</code> - HTTP/2 (requires TLS with ALPN)</li>
-<li><code>h3</code> - HTTP/3 (future, not yet implemented)</li>
+<li><code>h2</code> - HTTP/2 (TLS with ALPN, or cleartext via <code>http2_cleartext</code>)</li>
 </ul>
 <p>Examples::</p>
 <div class="highlight"><pre><span></span><code># HTTP/1.1 only (default, backward compatible)
@@ -3732,7 +3731,8 @@ are force killed.</p>
 # Prefer HTTP/2, fallback to HTTP/1.1
 --http-protocols=h2,h1
 
-# HTTP/2 only (reject HTTP/1.1 clients)
+# Offer HTTP/2 only. A client that does not select it over ALPN
+# is still served HTTP/1.1; there is no rejection.
 --http-protocols=h2
 </code></pre></div>
 <p>HTTP/2 requires:</p>
@@ -3764,6 +3764,10 @@ http2-prior-knowledge.</p>
 </ul>
 <p>The mechanisms are listed separately on purpose: enabling one does not
 enable the other.</p>
+<p>With <code>prior-knowledge</code> alone, a trusted peer that does not send the
+preface is refused with 400, since it is expected to speak HTTP/2.
+With <code>upgrade</code> or <code>both</code> an HTTP/1 request is how an upgrade
+begins, so it is served normally.</p>
 <p>Only peers in <a href="#forwarded_allow_ips">forwarded-allow-ips</a> are considered. Everyone else
 is served HTTP/1.x exactly as if this were <code>off</code>. Anything else from
 a trusted peer on a prior-knowledge port (an HTTP/1.x request, a
@@ -4864,6 +4868,14 @@ noticeably higher if you're sure of the repercussions for sync workers.
 For the non sync workers it just means that the worker process is still
 communicating and is not tied to the length of time required to handle a
 single request.</p>
+<p>On HTTP/2 connections it also bounds a single stream: a request body
+that makes no progress for this long, or a response the peer stops
+reading for this long, is cancelled with <code>RST_STREAM</code>. 0 disables
+that too.</p>
+<div class="admonition info">
+<p class="admonition-title">Changed in 26.3.0</p>
+<p>Also bounds a stalled HTTP/2 stream.</p>
+</div>
 <h3 id="graceful_timeout"><code>graceful_timeout</code><a class="headerlink" href="#graceful_timeout" title="Permanent link">&para;</a></h3>
 <p><strong>Command line:</strong> <code>--graceful-timeout INT</code></p>
 <p><strong>Default:</strong> <code>30</code></p>
@@ -4883,6 +4895,12 @@ set this to a higher value.</p>
 <p class="admonition-title">Note</p>
 <p><code>sync</code> worker does not support persistent connections and will
 ignore this option.</p>
+</div>
+<p>On the <code>gthread</code> and <code>gevent</code> workers an HTTP/2 connection with no
+stream open is closed with <code>GOAWAY</code> after this many seconds.</p>
+<div class="admonition info">
+<p class="admonition-title">Changed in 26.3.0</p>
+<p>Also applies to idle HTTP/2 connections.</p>
 </div>
 <h3 id="asgi_loop"><code>asgi_loop</code><a class="headerlink" href="#asgi_loop" title="Permanent link">&para;</a></h3>
 <p><strong>Command line:</strong> <code>--asgi-loop STRING</code></p>
@@ -4933,15 +4951,14 @@ need to increase this value.</p>
 <h3 id="http_parser"><code>http_parser</code><a class="headerlink" href="#http_parser" title="Permanent link">&para;</a></h3>
 <p><strong>Command line:</strong> <code>--http-parser STRING</code></p>
 <p><strong>Default:</strong> <code>'auto'</code></p>
-<p>HTTP parser implementation for ASGI workers.</p>
+<p>HTTP parser implementation.</p>
 <ul>
-<li>auto: Use H1CProtocol if gunicorn_h1c is available, else PythonProtocol (default)</li>
-<li>fast: Require H1CProtocol from gunicorn_h1c (fail if unavailable)</li>
-<li>python: Force pure Python PythonProtocol parser</li>
+<li>auto: Use gunicorn_h1c if it is available, else use the pure Python parser (default)</li>
+<li>fast: Require gunicorn_h1c (fail if unavailable)</li>
+<li>python: Force pure Python parser</li>
 </ul>
-<p>ASGI workers use callback-based parsing in data_received() for efficient
-incremental parsing. The gunicorn_h1c C extension provides significantly
-faster HTTP parsing using picohttpparser with SIMD optimizations.</p>
+<p>The gunicorn_h1c C extension provides significantly faster HTTP parsing
+using picohttpparser with SIMD optimizations.</p>
 <p>Install it with: pip install gunicorn[fast]</p>
 <div class="admonition info">
 <p class="admonition-title">Added in 25.0.0</p>
