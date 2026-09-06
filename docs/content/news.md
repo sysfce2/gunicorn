@@ -1,7 +1,7 @@
 <span id="news"></span>
 # Changelog
 
-## Unreleased
+## 26.2.2 - 2026-09-06
 
 ### Bug Fixes
 
